@@ -1,0 +1,22 @@
+# Python virtual environment
+backend/venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Dataset - too large for GitHub
+dataset/
+
+# SQLite database
+database/carebloom.db
+
+# Temporary files
+*.tmp
+*.log
+
+# Environment variables / API keys
+.env
+*.env
