@@ -9,10 +9,22 @@ def create_tables():
     connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
 
-    # Create disease history table
+    # Users table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Disease history table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS disease_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
             filename TEXT,
             plant TEXT,
             disease TEXT,
@@ -26,15 +38,44 @@ def create_tables():
         )
     """)
 
-    # Safely add user_id column if it does not already exist
-    cursor.execute("PRAGMA table_info(disease_history)")
-    columns = [column[1] for column in cursor.fetchall()]
+    # User plants table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS user_plants (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            plant_name TEXT NOT NULL,
+            planting_date TEXT,
+            location TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
 
-    if "user_id" not in columns:
-        cursor.execute("""
-            ALTER TABLE disease_history
-            ADD COLUMN user_id INTEGER
-        """)
+    # Reminders table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS reminders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            plant_id INTEGER NOT NULL,
+            reminder_type TEXT NOT NULL,
+            reminder_date TEXT NOT NULL,
+            message TEXT,
+            status TEXT DEFAULT 'Pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Consultation table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS consultations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            plant_id INTEGER NOT NULL,
+            disease TEXT,
+            question TEXT NOT NULL,
+            status TEXT DEFAULT 'Pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
 
     connection.commit()
     connection.close()
