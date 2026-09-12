@@ -175,7 +175,7 @@ async def predict_disease(
         )
 
         class_name = result.names[class_id]
-        print("RAW MODEL CLASS:", repr(class_name))
+      
 
 
         # ----------------------------------------------------
