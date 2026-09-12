@@ -199,3 +199,6 @@ Similarly, model confidence represents how confident the AI model is in its clas
 **Project Name:** CareBloom  
 **Project Type:** Final Year Engineering Project  
 **Domain:** Artificial Intelligence, Machine Learning and Agriculture
+Voice Chatbot: browser-based Speech Recognition + Speech Synthesis supported through backend voice configuration.
+Nearby Services: live OpenStreetMap / Overpass integration working.
+Market Price: government mandi API integration attempted; sample fallback is used when the live API is unavailable.
