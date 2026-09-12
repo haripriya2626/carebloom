@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+backend/venv/
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# Datasets
+dataset/
+dataset_v2/
+
+# Training outputs
+runs/
+
+# Large model files
+*.pt
+
+# Database
+*.db
+
+# VS Code
+.vscode/

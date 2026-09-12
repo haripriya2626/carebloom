@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareBloom</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOGIN / REGISTER -->
+  <section id="authSection" class="page active">
+    <div class="auth-container">
+      <div class="brand-panel">
+        <h1>🌿 CareBloom</h1>
+        <p>AI-powered multi-crop leaf disease detection and intelligent plant care.</p>
+      </div>
+
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button id="loginTab" class="tab-btn active" onclick="showLogin()">Login</button>
+          <button id="registerTab" class="tab-btn" onclick="showRegister()">Register</button>
+        </div>
+
+        <div id="loginForm">
+          <h2>Welcome Back</h2>
+
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Email"
+          />
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+          />
+
+          <button class="primary-btn" onclick="loginUser()">
+            Login
+          </button>
+
+          <p id="loginMessage" class="message"></p>
+        </div>
+
+        <div id="registerForm" class="hidden">
+          <h2>Create Account</h2>
+
+          <input
+            type="text"
+            id="registerName"
+            placeholder="Name"
+          />
+
+          <input
+            type="email"
+            id="registerEmail"
+            placeholder="Email"
+          />
+
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="Password"
+          />
+
+          <button class="primary-btn" onclick="registerUser()">
+            Register
+          </button>
+
+          <p id="registerMessage" class="message"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MAIN APPLICATION -->
+  <section id="appSection" class="hidden">
+
+    <header class="topbar">
+      <div>
+        <h2>🌿 CareBloom</h2>
+        <p id="welcomeUser">Welcome</p>
+      </div>
+
+      <button class="logout-btn" onclick="logoutUser()">
+        Logout
+      </button>
+    </header>
+
+
+    <!-- NAVIGATION -->
+    <nav class="nav-bar">
+      <button onclick="showPage('dashboardPage')">Home</button>
+      <button onclick="showPage('scanPage')">Scan</button>
+      <button onclick="showPage('plantsPage')">My Plants</button>
+      <button onclick="showPage('historyPage'); loadHistory()">History</button>
+      <button onclick="showPage('remindersPage'); loadReminders()">Reminders</button>
+      <button onclick="showPage('consultationPage'); loadConsultations()">Consultation</button>
+    </nav>
+
+
+    <main>
+
+      <!-- DASHBOARD -->
+      <section id="dashboardPage" class="content-page active-page">
+
+        <div class="hero">
+          <h1>Smart Plant Care Starts Here 🌱</h1>
+          <p>
+            Scan a crop leaf, detect disease using AI,
+            and receive treatment, weather risk and care recommendations.
+          </p>
+
+          <button class="primary-btn hero-btn" onclick="showPage('scanPage')">
+            📷 Scan Leaf
+          </button>
+        </div>
+
+        <div class="feature-grid">
+
+          <div class="feature-card">
+            <h3>📷 AI Disease Detection</h3>
+            <p>Upload or capture a crop leaf and detect possible disease.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>💊 Treatment</h3>
+            <p>Get organic remedies, chemical treatment and prevention tips.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>🌦 Weather Risk</h3>
+            <p>Analyze live weather conditions and disease risk.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>❤️ Plant Health</h3>
+            <p>View plant health score and health status.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>🔔 Smart Reminders</h3>
+            <p>Track watering and fertilizer schedules.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>👨‍⚕️ Expert Consultation</h3>
+            <p>Submit plant problems for expert consultation.</p>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- SCAN PAGE -->
+      <section id="scanPage" class="content-page">
+
+        <div class="section-card">
+
+          <h2>📷 AI Leaf Disease Detection</h2>
+          <p>
+            Take a clear photo or upload one crop leaf.
+            CareBloom will analyze it using the trained YOLO model.
+           </p>
+          <input
+            type="file"
+            id="leafImage"
+            accept="image/*"
+            capture="environment"
+            onchange="previewLeafImage()"
+          />
+
+          <div class="image-preview-box">
+            <img id="leafPreview" alt="Leaf Preview" />
+          </div>
+
+          <button class="primary-btn" onclick="analyzeLeaf()">
+            Analyze Leaf
+          </button>
+
+          <p id="scanStatus" class="message"></p>
+        </div>
+
+
+        <!-- RESULT -->
+        <div id="resultCard" class="section-card hidden">
+
+          <h2>🌿 CareBloom AI Analysis Result</h2>
+          <div class="result-grid">
+
+            <div class="result-item">
+              <span>Plant</span>
+              <strong id="resultPlant">-</strong>
+            </div>
+
+            <div class="result-item">
+              <span>Disease</span>
+              <strong id="resultDisease">-</strong>
+            </div>
+
+            <div class="result-item">
+              <span>Confidence</span>
+              <strong id="resultConfidence">-</strong>
+            </div>
+
+            <div class="result-item">
+              <span>Health Score</span>
+              <strong id="resultHealthScore">-</strong>
+            </div>
+
+            <div class="result-item">
+              <span>Health Status</span>
+              <strong id="resultHealthStatus">-</strong>
+            </div>
+
+            <div class="result-item">
+              <span>Weather Risk</span>
+              <strong id="resultWeatherRisk">-</strong>
+            </div>
+
+          </div>
+
+
+          <div class="info-block">
+            <h3>🌦 Weather</h3>
+            <p>
+              Temperature:
+              <strong id="resultTemperature">-</strong> °C
+            </p>
+            <p>
+              Humidity:
+              <strong id="resultHumidity">-</strong> %
+            </p>
+            <p>
+              Rainfall:
+              <strong id="resultRainfall">-</strong>
+            </p>
+          </div>
+
+
+          <div class="info-block alert-block">
+            <h3>⚠ Alert</h3>
+            <p>
+              Level:
+              <strong id="resultAlertLevel">-</strong>
+            </p>
+            <p id="resultAlertMessage">-</p>
+          </div>
+
+
+          <div class="info-block">
+            <h3>🌿 Organic Remedy</h3>
+            <p id="resultOrganic">-</p>
+          </div>
+
+
+          <div class="info-block">
+            <h3>💊 Chemical Treatment</h3>
+            <p id="resultChemical">-</p>
+          </div>
+
+
+          <div class="info-block">
+            <h3>🛡 Prevention</h3>
+            <p id="resultPrevention">-</p>
+          </div>
+
+
+          <div class="info-block">
+            <h3>💧 Plant Care Schedule</h3>
+
+            <p>
+              Water every
+              <strong id="resultWaterInterval">-</strong>
+              days
+            </p>
+
+            <p>
+              Next watering:
+              <strong id="resultNextWater">-</strong>
+            </p>
+
+            <p>
+              Fertilizer every
+              <strong id="resultFertilizerInterval">-</strong>
+              days
+            </p>
+
+            <p>
+              Next fertilizer:
+              <strong id="resultNextFertilizer">-</strong>
+            </p>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- MY PLANTS -->
+      <section id="plantsPage" class="content-page">
+
+        <div class="section-card">
+
+          <h2>🌱 My Plants</h2>
+
+          <input
+            id="plantName"
+            type="text"
+            placeholder="Plant name (Example: Tomato)"
+          />
+
+          <input
+            id="plantingDate"
+            type="date"
+          />
+
+          <input
+            id="plantLocation"
+            type="text"
+            placeholder="Location"
+          />
+
+          <button class="primary-btn" onclick="addPlant()">
+            Add Plant
+          </button>
+
+          <p id="plantMessage" class="message"></p>
+
+        </div>
+
+        <div class="section-card">
+          <h3>Your Plants</h3>
+
+          <button class="secondary-btn" onclick="loadPlants()">
+            Refresh Plants
+          </button>
+
+          <div id="plantsList" class="list-container"></div>
+        </div>
+
+      </section>
+
+
+      <!-- HISTORY -->
+      <section id="historyPage" class="content-page">
+
+        <div class="section-card">
+
+          <h2>📜 Disease History</h2>
+
+          <button class="secondary-btn" onclick="loadHistory()">
+            Refresh History
+          </button>
+
+          <div id="historyList" class="list-container"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- REMINDERS -->
+      <section id="remindersPage" class="content-page">
+
+        <div class="section-card">
+
+          <h2>🔔 Plant Reminders</h2>
+
+          <input
+            id="reminderPlantId"
+            type="number"
+            placeholder="Plant ID"
+          />
+
+          <select id="reminderType">
+            <option value="Watering">Watering</option>
+            <option value="Fertilizer">Fertilizer</option>
+          </select>
+
+          <input
+            id="reminderDate"
+            type="date"
+          />
+
+          <input
+            id="reminderMessage"
+            type="text"
+            placeholder="Reminder message"
+          />
+
+          <button class="primary-btn" onclick="addReminder()">
+            Add Reminder
+          </button>
+
+          <p id="reminderStatus" class="message"></p>
+
+        </div>
+
+        <div class="section-card">
+
+          <h3>Your Reminders</h3>
+
+          <button class="secondary-btn" onclick="loadReminders()">
+            Refresh Reminders
+          </button>
+
+          <div id="reminderList" class="list-container"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CONSULTATION -->
+      <section id="consultationPage" class="content-page">
+
+        <div class="section-card">
+
+          <h2>👨‍⚕️ Request Expert Consultation</h2>
+          <p>
+            Submit your plant problem to an agriculture expert.
+            Your request will be stored with a consultation status.
+          </p>
+
+          <input
+            id="consultPlantId"
+            type="number"
+            placeholder="Plant ID"
+          />
+
+          <input
+            id="consultDisease"
+            type="text"
+            placeholder="Disease"
+          />
+
+          <textarea
+            id="consultQuestion"
+            rows="5"
+            placeholder="Describe your plant problem..."
+          ></textarea>
+
+          <button class="primary-btn" onclick="addConsultation()">
+            Submit Consultation
+          </button>
+
+          <p id="consultStatus" class="message"></p>
+
+        </div>
+
+        <div class="section-card">
+
+          <h3>Consultation History</h3>
+
+          <button class="secondary-btn" onclick="loadConsultations()">
+            Refresh
+          </button>
+
+          <div id="consultationList" class="list-container"></div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </section>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
