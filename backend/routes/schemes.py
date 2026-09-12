@@ -10,43 +10,87 @@ SCHEMES = [
     {
         "id": 1,
         "name": "PM-KISAN",
+        "full_name": "Pradhan Mantri Kisan Samman Nidhi",
         "category": "Income Support",
-        "description": "Financial support scheme for eligible farmer families.",
-        "eligibility": "Eligible farmer families as per government guidelines.",
+        "description": (
+            "Central Government income-support scheme for eligible "
+            "landholding farmer families."
+        ),
+        "benefit": (
+            "Eligible beneficiaries can receive financial support "
+            "as per the current government scheme rules."
+        ),
+        "eligibility": (
+            "Landholding farmer families who satisfy the current "
+            "government eligibility and exclusion criteria."
+        ),
         "documents": [
             "Aadhaar",
+            "Mobile number",
             "Bank account details",
-            "Land-related documents"
+            "Land-related details"
         ],
-        "application_mode": "Online / Government service centre",
-        "official_source": "Government portal"
+        "application_mode": "Online / Common Service Centre",
+        "official_source": "PM-KISAN Official Portal",
+        "official_url": "https://pmkisan.gov.in/"
     },
+
     {
         "id": 2,
-        "name": "Pradhan Mantri Fasal Bima Yojana",
+        "name": "PMFBY",
+        "full_name": "Pradhan Mantri Fasal Bima Yojana",
         "category": "Crop Insurance",
-        "description": "Crop insurance support against specified crop losses.",
-        "eligibility": "Farmers growing notified crops in notified areas.",
+        "description": (
+            "Crop insurance scheme designed to provide financial support "
+            "against eligible crop losses."
+        ),
+        "benefit": (
+            "Insurance protection against specified crop losses "
+            "subject to scheme rules and notified crops."
+        ),
+        "eligibility": (
+            "Farmers cultivating crops covered under the scheme "
+            "in notified areas and seasons."
+        ),
         "documents": [
             "Aadhaar",
+            "Mobile number",
             "Bank account details",
-            "Land or crop details"
+            "Land or tenancy details",
+            "Crop details"
         ],
-        "application_mode": "Online / Bank / Common service centre",
-        "official_source": "Government portal"
+        "application_mode": "Online / Bank / Common Service Centre",
+        "official_source": "PMFBY Official Portal",
+        "official_url": "https://pmfby.gov.in/"
     },
+
     {
         "id": 3,
         "name": "Soil Health Card",
+        "full_name": "Soil Health Card Scheme",
         "category": "Soil Health",
-        "description": "Helps farmers understand soil nutrient status and fertilizer recommendations.",
-        "eligibility": "Farmers seeking soil testing and nutrient guidance.",
+        "description": (
+            "Provides farmers with information about soil nutrient status "
+            "and recommendations for balanced nutrient management."
+        ),
+        "benefit": (
+            "Provides soil-test information and nutrient recommendations "
+            "to support better soil and crop management."
+        ),
+        "eligibility": (
+            "Farmers seeking soil testing and soil-health guidance."
+        ),
         "documents": [
-            "Basic farmer details",
+            "Farmer details",
+            "Mobile number",
             "Land or field details"
         ],
-        "application_mode": "Agriculture department / Local service centre",
-        "official_source": "Government agriculture department"
+        "application_mode": (
+            "Agriculture Department / Soil Testing Laboratory / "
+            "Local agricultural service centre"
+        ),
+        "official_source": "Soil Health Card Portal",
+        "official_url": "https://soilhealth.dac.gov.in/"
     }
 ]
 
@@ -59,8 +103,9 @@ def get_all_schemes():
         "total_schemes": len(SCHEMES),
         "schemes": SCHEMES,
         "note": (
-            "Scheme rules, eligibility and application dates can change. "
-            "Users should verify the latest information from the official government source."
+            "Scheme benefits, eligibility rules, documents and application "
+            "periods may change. Always verify the latest information on the "
+            "official government portal before applying."
         )
     }
 
@@ -72,7 +117,11 @@ def get_scheme(scheme_id: int):
         if scheme["id"] == scheme_id:
             return {
                 "status": "success",
-                "scheme": scheme
+                "scheme": scheme,
+                "note": (
+                    "Please verify the latest scheme details on the official "
+                    "government portal before applying."
+                )
             }
 
     raise HTTPException(
