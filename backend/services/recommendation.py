@@ -299,7 +299,7 @@ def get_recommendation(plant: str, disease: str):
     }
 
     # =========================================================
-    # HEALTHY CLASS FALLBACK
+    # HEALTHY CLASS
     # =========================================================
 
     if "healthy" in disease.lower():
@@ -317,7 +317,7 @@ def get_recommendation(plant: str, disease: str):
         }
 
     # =========================================================
-    # LOOK FOR EXACT DISEASE RECOMMENDATION
+    # EXACT RECOMMENDATION
     # =========================================================
 
     recommendation = recommendations.get((plant, disease))
@@ -327,12 +327,26 @@ def get_recommendation(plant: str, disease: str):
 
     disease_lower = disease.lower()
 
+    # =========================================================
+    # BACTERIAL DISEASES
+    # =========================================================
+
     if "bacterial" in disease_lower:
         return {
-            "organic_remedy": "Remove infected leaves and keep tools clean.",
-            "chemical_treatment": "Use a suitable bactericide only with expert guidance.",
-            "prevention": "Avoid overhead watering and use disease-free planting material."
+            "organic_remedy": (
+                "Remove infected leaves and keep tools clean."
+            ),
+            "chemical_treatment": (
+                "Use a suitable bactericide only with expert guidance."
+            ),
+            "prevention": (
+                "Avoid overhead watering and use disease-free planting material."
+            )
         }
+
+    # =========================================================
+    # COMMON FUNGAL DISEASES
+    # =========================================================
 
     if any(word in disease_lower for word in [
         "rust",
@@ -342,10 +356,20 @@ def get_recommendation(plant: str, disease: str):
         "rot"
     ]):
         return {
-            "organic_remedy": "Remove infected leaves and keep the plant area clean.",
-            "chemical_treatment": "Use a suitable fungicide only with expert guidance.",
-            "prevention": "Avoid excess moisture and improve air circulation."
+            "organic_remedy": (
+                "Remove infected leaves and keep the plant area clean."
+            ),
+            "chemical_treatment": (
+                "Use a suitable fungicide only with expert guidance."
+            ),
+            "prevention": (
+                "Avoid excess moisture and improve air circulation."
+            )
         }
+
+    # =========================================================
+    # VIRAL DISEASES
+    # =========================================================
 
     if any(word in disease_lower for word in [
         "virus",
@@ -353,60 +377,214 @@ def get_recommendation(plant: str, disease: str):
         "tungro"
     ]):
         return {
-            "organic_remedy": "Remove severely infected plants and control insect vectors.",
-            "chemical_treatment": "There is no direct chemical cure for viral diseases.",
-            "prevention": "Use healthy planting material and control insect vectors."
-        }
-        # Pest-related diseases
-    if any(word in disease_lower for word in [
-        "pest", "hispa", "mites", "beetle"
-    ]):
-        return {
-            "organic_remedy": "Remove heavily affected leaves and use neem-based pest control.",
-            "chemical_treatment": "Use an approved insecticide only under expert guidance.",
-            "prevention": "Inspect plants regularly and control insect pests early."
+            "organic_remedy": (
+                "Remove severely infected plants and control insect vectors."
+            ),
+            "chemical_treatment": (
+                "There is no direct chemical cure for viral diseases."
+            ),
+            "prevention": (
+                "Use healthy planting material and control insect vectors."
+            )
         }
 
-    # Wilt / Dead Heart
+    # =========================================================
+    # PEST RELATED
+    # =========================================================
+
     if any(word in disease_lower for word in [
-        "wilt", "dead heart"
+        "pest",
+        "hispa",
+        "mites",
+        "beetle"
     ]):
         return {
-            "organic_remedy": "Remove severely affected plant parts and maintain good field hygiene.",
-            "chemical_treatment": "Use suitable treatment only after confirming the cause with an agriculture expert.",
-            "prevention": "Use healthy planting material and avoid waterlogging."
+            "organic_remedy": (
+                "Remove heavily affected leaves and use neem-based pest control."
+            ),
+            "chemical_treatment": (
+                "Use an approved insecticide only under expert guidance."
+            ),
+            "prevention": (
+                "Inspect plants regularly and control insect pests early."
+            )
         }
 
-    # Nutrition deficiency
+    # =========================================================
+    # WILT / DEAD HEART
+    # =========================================================
+
+    if any(word in disease_lower for word in [
+        "wilt",
+        "dead heart"
+    ]):
+        return {
+            "organic_remedy": (
+                "Remove severely affected plant parts and maintain good field hygiene."
+            ),
+            "chemical_treatment": (
+                "Use suitable treatment only after confirming the cause "
+                "with an agriculture expert."
+            ),
+            "prevention": (
+                "Use healthy planting material and avoid waterlogging."
+            )
+        }
+
+    # =========================================================
+    # NUTRITION DEFICIENCY
+    # =========================================================
+
     if "nutrition deficiency" in disease_lower:
         return {
-            "organic_remedy": "Apply well-decomposed compost and maintain balanced soil nutrition.",
-            "chemical_treatment": "Use balanced fertilizer based on soil-test recommendations.",
-            "prevention": "Perform regular soil testing and maintain balanced nutrients."
+            "organic_remedy": (
+                "Apply well-decomposed compost and maintain balanced soil nutrition."
+            ),
+            "chemical_treatment": (
+                "Use balanced fertilizer based on soil-test recommendations."
+            ),
+            "prevention": (
+                "Perform regular soil testing and maintain balanced nutrients."
+            )
         }
 
-    # Smut / Blast
+    # =========================================================
+    # SMUT / BLAST
+    # =========================================================
+
     if any(word in disease_lower for word in [
-        "smut", "blast"
+        "smut",
+        "blast"
     ]):
         return {
-            "organic_remedy": "Remove infected plant parts and keep the field clean.",
-            "chemical_treatment": "Use an approved fungicide or seed treatment under expert guidance.",
-            "prevention": "Use disease-free seed and resistant varieties where available."
+            "organic_remedy": (
+                "Remove infected plant parts and keep the field clean."
+            ),
+            "chemical_treatment": (
+                "Use an approved fungicide or seed treatment under expert guidance."
+            ),
+            "prevention": (
+                "Use disease-free seed and resistant varieties where available."
+            )
         }
 
-    # Leaf Curl / Leaf Crinkle / Bunchy Top
+    # =========================================================
+    # LEAF CURL / LEAF CRINKLE / BUNCHY TOP
+    # =========================================================
+
     if any(word in disease_lower for word in [
-        "leaf curl", "leaf crinkle", "bunchy top"
+        "leaf curl",
+        "leaf crinkle",
+        "bunchy top"
     ]):
         return {
-            "organic_remedy": "Remove severely infected plants and control insect vectors.",
-            "chemical_treatment": "There is usually no direct chemical cure; control insect vectors under expert guidance.",
-            "prevention": "Use healthy planting material and control vector insects early."
+            "organic_remedy": (
+                "Remove severely infected plants and control insect vectors."
+            ),
+            "chemical_treatment": (
+                "There is usually no direct chemical cure; "
+                "control insect vectors under expert guidance."
+            ),
+            "prevention": (
+                "Use healthy planting material and control vector insects early."
+            )
         }
+
+    # =========================================================
+    # ANTHRACNOSE / CANKER / SCAB
+    # =========================================================
+
+    if any(word in disease_lower for word in [
+        "anthracnose",
+        "canker",
+        "scab"
+    ]):
+        return {
+            "organic_remedy": (
+                "Remove infected leaves, fruits, or branches "
+                "and keep the growing area clean."
+            ),
+            "chemical_treatment": (
+                "Use an appropriate disease-control treatment "
+                "only under agriculture expert guidance."
+            ),
+            "prevention": (
+                "Use healthy planting material, improve airflow, "
+                "and avoid prolonged leaf wetness."
+            )
+        }
+
+    # =========================================================
+    # SIGATOKA / CORDANA / PESTALOTIOPSIS
+    # =========================================================
+
+    if any(word in disease_lower for word in [
+        "sigatoka",
+        "cordana",
+        "pestalotiopsis"
+    ]):
+        return {
+            "organic_remedy": (
+                "Remove badly affected leaves and maintain good field sanitation."
+            ),
+            "chemical_treatment": (
+                "Use a suitable fungicide only under agriculture expert guidance."
+            ),
+            "prevention": (
+                "Improve air circulation, reduce excess moisture, "
+                "and monitor plants regularly."
+            )
+        }
+
+    # =========================================================
+    # PANAMA DISEASE
+    # =========================================================
+
+    if "panama" in disease_lower:
+        return {
+            "organic_remedy": (
+                "Remove severely affected plants and avoid moving contaminated soil."
+            ),
+            "chemical_treatment": (
+                "There is no simple curative chemical treatment; "
+                "consult an agriculture expert."
+            ),
+            "prevention": (
+                "Use disease-free planting material and maintain strict field sanitation."
+            )
+        }
+
+    # =========================================================
+    # CITRUS GREENING
+    # =========================================================
+
+    if "greening" in disease_lower:
+        return {
+            "organic_remedy": (
+                "Remove severely infected plant material and manage insect vectors."
+            ),
+            "chemical_treatment": (
+                "There is no direct chemical cure; vector control should "
+                "be done under expert guidance."
+            ),
+            "prevention": (
+                "Use healthy planting material and control insect vectors early."
+            )
+        }
+
+    # =========================================================
+    # GENERAL FALLBACK
+    # =========================================================
 
     return {
-        "organic_remedy": "Remove affected leaves and keep the plant area clean.",
-        "chemical_treatment": "Consult an agriculture expert before applying any chemical treatment.",
-        "prevention": "Maintain proper watering, spacing, field hygiene, and regular disease monitoring."
+        "organic_remedy": (
+            "Remove affected leaves and keep the plant area clean."
+        ),
+        "chemical_treatment": (
+            "Consult an agriculture expert before applying any chemical treatment."
+        ),
+        "prevention": (
+            "Maintain proper watering, spacing, field hygiene, "
+            "and regular disease monitoring."
+        )
     }
